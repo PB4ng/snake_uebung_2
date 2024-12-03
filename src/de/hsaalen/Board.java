@@ -1,4 +1,4 @@
-package com.zetcode;
+package de.hsaalen;
 
 import java.awt.Color;
 import java.awt.Dimension;
