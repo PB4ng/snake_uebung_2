@@ -20,12 +20,9 @@ public class Board extends JPanel implements ActionListener {
     public final int widthInPixels  = 300;
     public final int heightInPixels = 300;
     public final int tileSizeInPixels = 10;
-    public final int maxSnakeLengthInPixels = 900;
     public final int refreshRateInMS= 140;
-    public final int initial_snake_size = 3;
     public Snake snake;
 
-    private int current_snake_size;
     private int apple_x;
     private int apple_y;
 
