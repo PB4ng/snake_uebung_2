@@ -17,12 +17,11 @@ import javax.swing.Timer;
 
 public class Board extends JPanel implements ActionListener {
 
-    private final int widthInPixels = 300;
-    private final int heightInPixels = 300;
-    private final int tileSizeInPixels = 10;
-    private final int maxSnakeLengthInPixels = 900;
-    private final int maxTiles = 29;
-    private final int refreshRateInMS = 140;
+    public final int widthInPixels  = 300;
+    public final int heightInPixels = 300;
+    public final int tileSizeInPixels = 10;
+    public final int maxSnakeLengthInPixels = 900;
+    public final int refreshRateInMS= 140;
 
     private final int x[] = new int[maxSnakeLengthInPixels];
     private final int y[] = new int[maxSnakeLengthInPixels];
@@ -187,13 +186,21 @@ public class Board extends JPanel implements ActionListener {
             timer.stop();
         }
     }
+    public int maximum_tile_index_x()
+    {
+        return ( widthInPixels / tileSizeInPixels ) - 1;
+    }
 
+    public int maximum_tile_index_y()
+    {
+        return ( heightInPixels/ tileSizeInPixels ) - 1;
+    }
     private void locateApple() {
 
-        int r = (int) (Math.random() * maxTiles);
+        int r = (int) (Math.random() * maximum_tile_index_x());
         apple_x = ((r * tileSizeInPixels));
 
-        r = (int) (Math.random() * maxTiles);
+        r = (int) (Math.random() * maximum_tile_index_y());
         apple_y = ((r * tileSizeInPixels));
     }
 
