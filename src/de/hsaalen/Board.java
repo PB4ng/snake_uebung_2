@@ -23,18 +23,13 @@ public class Board extends JPanel implements ActionListener {
     public final int maxSnakeLengthInPixels = 900;
     public final int refreshRateInMS= 140;
     public final int initial_snake_size = 3;
-
-    private final int x[] = new int[maxSnakeLengthInPixels];
-    private final int y[] = new int[maxSnakeLengthInPixels];
+    public Snake snake;
 
     private int current_snake_size;
     private int apple_x;
     private int apple_y;
 
-    private boolean leftDirection = false;
-    private boolean rightDirection = true;
-    private boolean upDirection = false;
-    private boolean downDirection = false;
+    private Direction direction = Direction.right;
     private boolean inGame = true;
 
     private Timer timer;
@@ -95,11 +90,11 @@ public class Board extends JPanel implements ActionListener {
 
             g.drawImage(apple, apple_x, apple_y, this);
 
-            for (int z = 0; z < current_snake_size; z++) {
-                if (z == 0) {
-                    g.drawImage(head, x[z], y[z], this);
+            for (int i = 0; i < snake.length(); i++) {
+                if (i == 0) {
+                    g.drawImage(head, snake.position(i).x, snake.position(i).y, this);
                 } else {
-                    g.drawImage(ball, x[z], y[z], this);
+                    g.drawImage(ball, snake.position(i).x, snake.position(i).y, this);
                 }
             }
 
@@ -122,63 +117,24 @@ public class Board extends JPanel implements ActionListener {
         g.drawString(msg, (widthInPixels - metr.stringWidth(msg)) / 2, heightInPixels / 2);
     }
 
-    private void checkApple() {
-
-        if ((x[0] == apple_x) && (y[0] == apple_y)) {
-
-            current_snake_size++;
+    private void checkApple()
+    {
+        if ((snake.head_position().x == apple_x) && (snake.head_position().y == apple_y))
+        {
+            snake.grow( direction );
             place_apple_at_random_location();
         }
     }
 
-    private void move() {
-
-        for (int z = current_snake_size; z > 0; z--) {
-            x[z] = x[(z - 1)];
-            y[z] = y[(z - 1)];
-        }
-
-        if (leftDirection) {
-            x[0] -= tileSizeInPixels;
-        }
-
-        if (rightDirection) {
-            x[0] += tileSizeInPixels;
-        }
-
-        if (upDirection) {
-            y[0] -= tileSizeInPixels;
-        }
-
-        if (downDirection) {
-            y[0] += tileSizeInPixels;
-        }
+    private void move()
+    {
+        snake.move( direction );
     }
 
-    private void checkCollision() {
-
-        for (int z = current_snake_size; z > 0; z--) {
-
-            if ((z > 4) && (x[0] == x[z]) && (y[0] == y[z])) {
-                inGame = false;
-            }
-        }
-
-        if (y[0] >= heightInPixels) {
+    private void checkCollision()
+    {
+        if ( snake.is_snake_colliding(widthInPixels, heightInPixels) )
             inGame = false;
-        }
-
-        if (y[0] < 0) {
-            inGame = false;
-        }
-
-        if (x[0] >= widthInPixels) {
-            inGame = false;
-        }
-
-        if (x[0] < 0) {
-            inGame = false;
-        }
         
         if (!inGame) {
             timer.stop();
@@ -196,12 +152,7 @@ public class Board extends JPanel implements ActionListener {
 
     public void place_snake_at_initial_location()
     {
-        current_snake_size = initial_snake_size;
-        for (int z = 0; z < current_snake_size; z++)
-        {
-            x[z] = 50 - z * 10;
-            y[z] = 50;
-        }
+        snake = new Snake( 3, tileSizeInPixels );
     }
 
     private void place_apple_at_random_location() {
@@ -233,29 +184,17 @@ public class Board extends JPanel implements ActionListener {
 
             int key = e.getKeyCode();
 
-            if ((key == KeyEvent.VK_LEFT) && (!rightDirection)) {
-                leftDirection = true;
-                upDirection = false;
-                downDirection = false;
-            }
+            if ( key == KeyEvent.VK_LEFT )
+                direction = Direction.left;
 
-            if ((key == KeyEvent.VK_RIGHT) && (!leftDirection)) {
-                rightDirection = true;
-                upDirection = false;
-                downDirection = false;
-            }
+            if ( key == KeyEvent.VK_RIGHT )
+                direction = Direction.right;
 
-            if ((key == KeyEvent.VK_UP) && (!downDirection)) {
-                upDirection = true;
-                rightDirection = false;
-                leftDirection = false;
-            }
+            if ( key == KeyEvent.VK_UP )
+                direction = Direction.up;
 
-            if ((key == KeyEvent.VK_DOWN) && (!upDirection)) {
-                downDirection = true;
-                rightDirection = false;
-                leftDirection = false;
-            }
+            if ( key == KeyEvent.VK_DOWN )
+                direction = Direction.down;
         }
     }
 }
