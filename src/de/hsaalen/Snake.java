@@ -15,7 +15,6 @@ public class Snake
         place_at_initial_location( initial_snake_size );
     }
 
-
     private void allocate_memory()
     {
         positions = new LinkedList<IntPair>();
