@@ -62,4 +62,26 @@ public class BoardTest {
             assertEquals(0, snake.position(i).y % board.tileSizeInPixels);
         }
     }
+
+    @Test
+    public void testCheckApple()
+    {
+        Board board = new Board();
+        board.place_snake_at_initial_location();
+
+        board.place_apple_at_random_location();
+        IntPair applePosition = new IntPair(board.getAppleX(), board.getAppleY());
+
+        board.getSnake().position(0).x = applePosition.x;
+        board.getSnake().position(0).y = applePosition.y;
+
+        int originalLength = board.getSnake().length();
+
+        board.checkApple();
+
+        assertEquals(originalLength + 1, board.getSnake().length());
+
+        assertNotEquals(applePosition.x, board.getAppleX());
+        assertNotEquals(applePosition.y, board.getAppleY());
+    }
 }
