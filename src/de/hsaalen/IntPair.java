@@ -1,4 +1,7 @@
 package de.hsaalen;
+
+import java.io.Console;
+
 public class IntPair
 {
     public int x;
@@ -26,6 +29,7 @@ public class IntPair
                 y += tile_size_in_pixels;
                 break;
         }
+
     }
 
     public IntPair clone( )
