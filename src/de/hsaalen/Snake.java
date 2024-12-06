@@ -68,15 +68,10 @@ public class Snake
     }
     public boolean is_outside_board( int board_width_in_pixels, int board_height_in_pixels )
     {
-        if ( head_position().x < 0 )
-            return true;
-        if ( head_position().x >= board_width_in_pixels )
-            return true;
-        if ( head_position().y < 0 )
-            return true;
-        if ( head_position().y >= board_height_in_pixels )
-            return true;
-        return false;
+        return head_position().x < 0 ||
+                head_position().x >= board_width_in_pixels ||
+                head_position().y < 0 ||
+                head_position().y >= board_height_in_pixels;
     }
 
     public int length()
