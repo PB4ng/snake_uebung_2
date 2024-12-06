@@ -63,7 +63,8 @@ public class SnakeTest {
     }
 
     @Test
-    public void testCollisionWithWalls() {
+    public void testCollisionWithWalls()
+    {
         Snake snake = new Snake(3, 10);
 
 

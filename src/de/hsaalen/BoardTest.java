@@ -25,4 +25,41 @@ public class BoardTest {
         Board board = new Board();
         assertNotNull( board );
     }
+
+    @Test
+    public void testPlaceAppleAtRandomLocation()
+    {
+        Board board = new Board();
+
+        board.place_apple_at_random_location();
+
+        int appleX = board.getAppleX();
+        int appleY = board.getAppleY();
+
+        assertTrue(appleX >= 0 && appleX <= board.maximum_tile_index_x() * board.tileSizeInPixels);
+        assertTrue(appleY >= 0 && appleY <= board.maximum_tile_index_y() * board.tileSizeInPixels);
+
+        assertEquals(0, appleX % board.tileSizeInPixels);
+        assertEquals(0, appleY % board.tileSizeInPixels);
+    }
+
+    @Test
+    public void testPlaceSnakeAtInitialLocation()
+    {
+        Board board = new Board();
+        board.place_snake_at_initial_location();
+
+        Snake snake = board.getSnake();
+
+        assertNotNull(snake);
+        assertEquals(3, snake.length());
+
+        for (int i = 0; i < snake.length(); i++) {
+            assertTrue(snake.position(i).x >= 0 && snake.position(i).x <= board.maximum_tile_index_x() * board.tileSizeInPixels);
+            assertTrue(snake.position(i).y >= 0 && snake.position(i).y <= board.maximum_tile_index_y() * board.tileSizeInPixels);
+
+            assertEquals(0, snake.position(i).x % board.tileSizeInPixels);
+            assertEquals(0, snake.position(i).y % board.tileSizeInPixels);
+        }
+    }
 }
