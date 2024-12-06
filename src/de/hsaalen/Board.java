@@ -175,13 +175,16 @@ public class Board extends JPanel implements ActionListener {
         snake = new Snake( 3, tileSizeInPixels );
     }
 
-    public void place_apple_at_random_location() {
+    public void place_apple_at_random_location()
+    {
+        apple_x = getRandomCoordinate(maximum_tile_index_x());
+        apple_y = getRandomCoordinate(maximum_tile_index_y());
+    }
 
-        int r = (int) (Math.random() * maximum_tile_index_x());
-        apple_x = ((r * tileSizeInPixels));
-
-        r = (int) (Math.random() * maximum_tile_index_y());
-        apple_y = ((r * tileSizeInPixels));
+    private int getRandomCoordinate(int maxSize)
+    {
+        int r = (int) (Math.random() * maxSize);
+        return r * tileSizeInPixels;
     }
 
     @Override
