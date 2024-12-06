@@ -129,7 +129,7 @@ public class Board extends JPanel implements ActionListener {
         g.drawString(msg, (widthInPixels - metr.stringWidth(msg)) / 2, heightInPixels / 2);
     }
 
-    private void checkApple()
+    public void checkApple()
     {
         if ((snake.head_position().x == apple_x) && (snake.head_position().y == apple_y))
         {
