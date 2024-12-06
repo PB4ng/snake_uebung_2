@@ -38,6 +38,21 @@ public class Board extends JPanel implements ActionListener {
         
         initBoard();
     }
+
+    //nötig für Unittests
+    public int getAppleX() {
+        return apple_x;
+    }
+
+    //nötig für Unittests
+    public int getAppleY() {
+        return apple_y;
+    }
+
+    //nötig für Unittests
+    public Snake getSnake() {
+        return snake;
+    }
     
     private void initBoard() {
 
@@ -152,7 +167,7 @@ public class Board extends JPanel implements ActionListener {
         snake = new Snake( 3, tileSizeInPixels );
     }
 
-    private void place_apple_at_random_location() {
+    public void place_apple_at_random_location() {
 
         int r = (int) (Math.random() * maximum_tile_index_x());
         apple_x = ((r * tileSizeInPixels));
