@@ -30,9 +30,9 @@ public class Board extends JPanel implements ActionListener {
     private boolean inGame = true;
 
     private Timer timer;
-    private Image ball;
-    private Image apple;
-    private Image head;
+    public Image ball;
+    public Image apple;
+    public Image head;
 
     public Board() {
         
@@ -69,7 +69,7 @@ public class Board extends JPanel implements ActionListener {
         return new ImageIcon(path).getImage();
     }
 
-    private void loadImages() {
+    public void loadImages() {
         ball = loadImage("src/resources/dot.png");
         apple = loadImage("src/resources/apple.png");
         head = loadImage("src/resources/head.png");

@@ -84,4 +84,14 @@ public class BoardTest {
         assertNotEquals(applePosition.x, board.getAppleX());
         assertNotEquals(applePosition.y, board.getAppleY());
     }
+
+    @Test
+    public void testLoadImages() {
+        Board board = new Board();
+        board.loadImages();
+
+        assertNotNull(board.ball);
+        assertNotNull(board.apple);
+        assertNotNull(board.head);
+    }
 }
