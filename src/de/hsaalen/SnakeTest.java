@@ -84,5 +84,6 @@ public class SnakeTest {
         assertFalse(snake.is_snake_colliding(300, 300));
     }
 
+
 }
 
