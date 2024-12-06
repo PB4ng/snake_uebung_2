@@ -85,5 +85,50 @@ public class SnakeTest {
     }
 
 
+
+    @Test
+    public void testIsOutsideBoardHeadInside() {
+        Snake snake = new Snake(3, 10);
+        snake.place_at_initial_location(3);
+
+        assertFalse(snake.is_outside_board(300, 300));
+    }
+
+    @Test
+    public void testIsOutsideBoardHeadLeft() {
+        Snake snake = new Snake(3, 10);
+        snake.place_at_initial_location(3);
+        snake.head_position().x = -1;
+
+        assertTrue(snake.is_outside_board(300, 300));
+    }
+
+    @Test
+    public void testIsOutsideBoardHeadRight() {
+        Snake snake = new Snake(3, 10);
+        snake.place_at_initial_location(3);
+        snake.head_position().x = 300 + 1;
+
+        assertTrue(snake.is_outside_board(300, 300));
+    }
+
+    @Test
+    public void testIsOutsideBoardHeadTop() {
+        Snake snake = new Snake(3, 10);
+        snake.place_at_initial_location(3);
+        snake.head_position().y = -1;
+
+        assertTrue(snake.is_outside_board(300, 300));
+    }
+
+    @Test
+    public void testIsOutsideBoardHeadBottom() {
+        Snake snake = new Snake(3, 10);
+        snake.place_at_initial_location(3);
+        snake.head_position().y = 300 + 1;
+
+        assertTrue(snake.is_outside_board(300, 300));
+    }
+
 }
 
