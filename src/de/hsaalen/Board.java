@@ -222,7 +222,7 @@ public class Board extends JPanel implements ActionListener {
         snake = new Snake( 3, tileSizeInPixels );
     }
 
-    public void place_fruit_at_random_location() //toDo: rename to place_fruit
+    public void place_fruit_at_random_location()
     {
         if(isSuperRound)
         {
