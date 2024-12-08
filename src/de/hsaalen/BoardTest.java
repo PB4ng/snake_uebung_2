@@ -93,5 +93,6 @@ public class BoardTest {
         assertNotNull(board.ball);
         assertNotNull(board.apple);
         assertNotNull(board.head);
+        assertNotNull(board.superfruit);
     }
 }
