@@ -22,9 +22,13 @@ public class Board extends JPanel implements ActionListener {
     public final int tileSizeInPixels = 10;
     public final int refreshRateInMS= 140;
     public Snake snake;
+    private boolean isSuperRound = false;
 
     private int apple_x;
     private int apple_y;
+
+    private int superfruit_x;
+    private int superfruit_y;
 
     private Direction direction = Direction.right;
     private boolean inGame = true;
@@ -33,6 +37,7 @@ public class Board extends JPanel implements ActionListener {
     private Image ball;
     private Image apple;
     private Image head;
+    private Image superfruit;
 
     public Board() {
         
@@ -73,14 +78,16 @@ public class Board extends JPanel implements ActionListener {
         ball = loadImage("src/resources/dot.png");
         apple = loadImage("src/resources/apple.png");
         head = loadImage("src/resources/head.png");
+        superfruit = loadImage("src/resources/superfruit.png");
     }
 
     private void initGame() {
 
         place_snake_at_initial_location();
-        place_apple_at_random_location();
+        place_fruit_at_random_location();
         start_game_loop_timer();
     }
+
     public void start_game_loop_timer()
     {
         timer = new Timer(refreshRateInMS, this);
@@ -98,7 +105,15 @@ public class Board extends JPanel implements ActionListener {
         
         if (inGame)
         {
-            drawApple(g);
+
+            if(isSuperRound)
+            {
+                drawSuperfruit(g);
+            }
+            else
+            {
+                drawApple(g);
+            }
             drawSnake(g);
             Toolkit.getDefaultToolkit().sync();
         }
@@ -111,6 +126,11 @@ public class Board extends JPanel implements ActionListener {
     private void drawApple(Graphics g)
     {
         g.drawImage(apple, apple_x, apple_y, this);
+    }
+
+    private void drawSuperfruit(Graphics g)
+    {
+        g.drawImage(superfruit, superfruit_x, superfruit_y, this);
     }
 
     private void drawSnake(Graphics g)
@@ -135,13 +155,42 @@ public class Board extends JPanel implements ActionListener {
         g.drawString(msg, (widthInPixels - metr.stringWidth(msg)) / 2, heightInPixels / 2);
     }
 
-    public void checkApple()
+    public void checkFruit()
     {
-        if ((snake.head_position().x == apple_x) && (snake.head_position().y == apple_y))
+        if(isSuperRound)
         {
-            snake.grow( direction );
-            place_apple_at_random_location();
+            if ((snake.head_position().x == superfruit_x) && (snake.head_position().y == superfruit_y))
+            {
+                snake.grow( direction );
+                snake.grow( direction );
+                snake.grow( direction );
+
+                loadNextRound();
+            }
         }
+        else
+        {
+            if ((snake.head_position().x == apple_x) && (snake.head_position().y == apple_y))
+            {
+                snake.grow( direction );
+
+                loadNextRound();
+            }
+        }
+    }
+
+    private void loadNextRound()
+    {
+        int rnd = getRandom(5); //20% chance
+
+        isSuperRound = rnd == 3;
+
+        place_fruit_at_random_location();
+    }
+
+    private int getRandom(int maxNumber)
+    {
+        return (int) (Math.random() * maxNumber) + 1;
     }
 
     private void move()
@@ -173,10 +222,26 @@ public class Board extends JPanel implements ActionListener {
         snake = new Snake( 3, tileSizeInPixels );
     }
 
-    public void place_apple_at_random_location()
+    public void place_fruit_at_random_location() //toDo: rename to place_fruit
     {
-        apple_x = getRandomCoordinate(maximum_tile_index_x());
-        apple_y = getRandomCoordinate(maximum_tile_index_y());
+        if(isSuperRound)
+        {
+            // -1 not existing
+            apple_x = -1;
+            apple_y = -1;
+
+            superfruit_x = getRandomCoordinate(maximum_tile_index_x());
+            superfruit_y = getRandomCoordinate(maximum_tile_index_y());
+        }
+        else
+        {
+            apple_x = getRandomCoordinate(maximum_tile_index_x());
+            apple_y = getRandomCoordinate(maximum_tile_index_y());
+
+            superfruit_x = -1;
+            superfruit_y = -1;
+        }
+
     }
 
     private int getRandomCoordinate(int maxSize)
@@ -190,7 +255,7 @@ public class Board extends JPanel implements ActionListener {
 
         if (inGame) {
 
-            checkApple();
+            checkFruit();
             checkCollision();
             move();
         }

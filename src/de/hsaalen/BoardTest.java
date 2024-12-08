@@ -31,7 +31,7 @@ public class BoardTest {
     {
         Board board = new Board();
 
-        board.place_apple_at_random_location();
+        board.place_fruit_at_random_location();
 
         int appleX = board.getAppleX();
         int appleY = board.getAppleY();
@@ -64,12 +64,12 @@ public class BoardTest {
     }
 
     @Test
-    public void testCheckApple()
+    public void testCheckFruit()
     {
         Board board = new Board();
         board.place_snake_at_initial_location();
 
-        board.place_apple_at_random_location();
+        board.place_fruit_at_random_location();
         IntPair applePosition = new IntPair(board.getAppleX(), board.getAppleY());
 
         board.getSnake().position(0).x = applePosition.x;
@@ -77,7 +77,7 @@ public class BoardTest {
 
         int originalLength = board.getSnake().length();
 
-        board.checkApple();
+        board.checkFruit();
 
         assertEquals(originalLength + 1, board.getSnake().length());
 
