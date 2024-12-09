@@ -2,33 +2,33 @@ package de.hsaalen;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BoardTest {
     @Test
-    public void  test_maximum_tile_index_x()
-    {
+    public void test_maximum_tile_index_x() {
         Board board = new Board();
         int maximum_tile_index_x = board.maximum_tile_index_x();
-        assertEquals( ( maximum_tile_index_x + 1 ) * board.tileSizeInPixels, board.widthInPixels );
+        assertEquals((maximum_tile_index_x + 1) * board.tileSizeInPixels, board.widthInPixels);
     }
 
     @Test
-    public void  test_maximum_tile_index_y()
-    {
+    public void test_maximum_tile_index_y() {
         Board board = new Board();
         int maximum_tile_index_y = board.maximum_tile_index_y();
-        assertEquals( ( maximum_tile_index_y + 1 ) * board.tileSizeInPixels, board.heightInPixels );
+        assertEquals((maximum_tile_index_y + 1) * board.tileSizeInPixels, board.heightInPixels);
     }
 
     @Test
     public void testConcatenate() {
         Board board = new Board();
-        assertNotNull( board );
+        assertNotNull(board);
     }
 
     @Test
-    public void testPlaceAppleAtRandomLocation()
-    {
+    public void testPlaceAppleAtRandomLocation() {
         Board board = new Board();
 
         board.place_fruit_at_random_location();
@@ -44,8 +44,7 @@ public class BoardTest {
     }
 
     @Test
-    public void testPlaceSnakeAtInitialLocation()
-    {
+    public void testPlaceSnakeAtInitialLocation() {
         Board board = new Board();
         board.place_snake_at_initial_location();
 
@@ -64,8 +63,7 @@ public class BoardTest {
     }
 
     @Test
-    public void testCheckFruit()
-    {
+    public void testCheckFruit() {
         Board board = new Board();
         board.place_snake_at_initial_location();
 
@@ -94,5 +92,40 @@ public class BoardTest {
         assertNotNull(board.apple);
         assertNotNull(board.head);
         assertNotNull(board.superfruit);
+    }
+
+    @Test
+    public void testPlaceFruitAtRandomLocation_NoOverlapWithObstacles() {
+        Board board = new Board();
+        board.addObstacles();
+
+        board.place_fruit_at_random_location();
+
+        Rectangle fruit = new Rectangle(board.apple_x, board.apple_y, board.tileSizeInPixels, board.tileSizeInPixels);
+        for (Rectangle obstacle : board.obstacles) {
+            assertFalse(obstacle.intersects(fruit));
+        }
+    }
+
+    @Test
+    public void testIsFruitOnObstacle_WhenOverlap() {
+        Board board = new Board();
+        board.obstacles.add(new Rectangle(100, 100, 10, 10));
+
+        board.apple_x = 100;
+        board.apple_y = 100;
+
+        assertTrue(board.isFruitOnObstacle());
+    }
+
+    @Test
+    public void testIsFruitOnObstacle_WhenNoOverlap() {
+        Board board = new Board();
+        board.obstacles.add(new Rectangle(100, 100, 10, 10));
+
+        board.apple_x = 200;
+        board.apple_y = 200;
+
+        assertFalse(board.isFruitOnObstacle());
     }
 }
