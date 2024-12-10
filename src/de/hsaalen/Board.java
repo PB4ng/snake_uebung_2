@@ -238,7 +238,7 @@ public class Board extends JPanel implements ActionListener {
         place_fruit_at_random_location();
     }
 
-    private int getRandom(int maxNumber)
+    public int getRandom(int maxNumber)
     {
         return (int) (Math.random() * maxNumber) + 1;
     }

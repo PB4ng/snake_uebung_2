@@ -128,4 +128,16 @@ public class BoardTest {
 
         assertFalse(board.isFruitOnObstacle());
     }
+
+    @Test
+    public void testGetRandom()
+    {
+        Board board = new Board();
+
+        int test1 = board.getRandom(15);
+
+        assertTrue(test1 > 0);
+        assertTrue(test1 <= 15);
+        assertFalse(test1 > 16);
+    }
 }
