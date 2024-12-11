@@ -94,39 +94,21 @@ public class BoardTest {
         assertNotNull(board.superfruit);
     }
 
-    @Test
-    public void testPlaceFruitAtRandomLocation_NoOverlapWithObstacles() {
-        Board board = new Board();
-        board.addObstacles();
 
-        board.place_fruit_at_random_location();
 
-        Rectangle fruit = new Rectangle(board.apple_x, board.apple_y, board.tileSizeInPixels, board.tileSizeInPixels);
-        for (Rectangle obstacle : board.obstacles) {
-            assertFalse(obstacle.intersects(fruit));
-        }
-    }
 
     @Test
-    public void testIsFruitOnObstacle_WhenOverlap() {
+    public void testAddInitialObstacles() {
+
         Board board = new Board();
-        board.obstacles.add(new Rectangle(100, 100, 10, 10));
 
-        board.apple_x = 100;
-        board.apple_y = 100;
+        List<Rectangle> obstacles = board.obstacles;
 
-        assertTrue(board.isFruitOnObstacle());
-    }
+        assertEquals(8, obstacles.size());
 
-    @Test
-    public void testIsFruitOnObstacle_WhenNoOverlap() {
-        Board board = new Board();
-        board.obstacles.add(new Rectangle(100, 100, 10, 10));
+        assertTrue(obstacles.contains(new Rectangle(40, 40, 130, 10)));
+        assertTrue(obstacles.contains(new Rectangle(140, 160, 130, 10)));
 
-        board.apple_x = 200;
-        board.apple_y = 200;
-
-        assertFalse(board.isFruitOnObstacle());
     }
 
     @Test

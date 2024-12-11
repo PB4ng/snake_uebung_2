@@ -35,7 +35,6 @@ public class Board extends JPanel implements ActionListener {
     public Image head;
     public Image superfruit;
     public List<Rectangle> obstacles = new ArrayList<>();
-    public int fruitsEaten = 0;
 
     public Board() {
         
@@ -83,6 +82,7 @@ public class Board extends JPanel implements ActionListener {
     private void initGame() {
 
         place_snake_at_initial_location();
+        addInitialObstacles();
         place_fruit_at_random_location();
         start_game_loop_timer();
     }
@@ -160,71 +160,29 @@ public class Board extends JPanel implements ActionListener {
                 snake.grow(direction);
                 snake.grow(direction);
                 snake.grow(direction);
-                fruitsEaten++;
-                addObstacles();
                 loadNextRound();
             }
         } else {
             if ((snake.head_position().x == apple_x) && (snake.head_position().y == apple_y)) {
                 snake.grow(direction);
-                fruitsEaten++;
-                addObstacles();
                 loadNextRound();
             }
         }
     }
+   public void addInitialObstacles() {
+        int[][] initialObstaclePositions = {
+                {40, 40, 130, 10},
+                {140, 160, 130, 10},
+                {40, 80, 130, 10},
+                {140, 200, 130, 10},
+                {40, 120, 130, 10},
+                {140, 240, 130, 10},
+                {40, 200, 130, 10},
+                {140, 80, 130, 10}
+        };
 
-    public void addObstacles() {
-        if (fruitsEaten == 3) {
-            int[][] obstaclePositions = {
-
-                    {40, 40, 130, 10},
-                    {140, 160, 130, 10}
-            };
-
-
-            for (int i = 0; i < obstaclePositions.length; i += 2) {
-                int[] pos1 = obstaclePositions[i];
-                int[] pos2 = obstaclePositions[i + 1];
-                obstacles.add(new Rectangle(pos1[0], pos1[1], pos1[2], pos1[3]));
-                obstacles.add(new Rectangle(pos2[0], pos2[1], pos2[2], pos2[3]));
-            }
-        } else if (fruitsEaten == 6) {
-            int[][] obstaclePositions = {
-
-                    {40, 40, 130, 10},
-                    {140, 160, 130, 10},
-
-                    {40, 80, 130, 10},
-                    {140, 200, 130, 10}
-            };
-
-
-            for (int i = 0; i < obstaclePositions.length; i += 2) {
-                int[] pos1 = obstaclePositions[i];
-                int[] pos2 = obstaclePositions[i + 1];
-                obstacles.add(new Rectangle(pos1[0], pos1[1], pos1[2], pos1[3]));
-                obstacles.add(new Rectangle(pos2[0], pos2[1], pos2[2], pos2[3]));
-            }
-        } else if (fruitsEaten == 9) {
-            int[][] obstaclePositions = {
-
-                    {40, 40, 130, 10},
-                    {140, 160, 130, 10},
-
-                    {40, 120, 130, 10},
-                    {140, 240, 130, 10},
-
-                    {40, 200, 130, 10},
-                    {140, 80, 130, 10}
-            };
-
-            for (int i = 0; i < obstaclePositions.length; i += 2) {
-                int[] pos1 = obstaclePositions[i];
-                int[] pos2 = obstaclePositions[i + 1];
-                obstacles.add(new Rectangle(pos1[0], pos1[1], pos1[2], pos1[3]));
-                obstacles.add(new Rectangle(pos2[0], pos2[1], pos2[2], pos2[3]));
-            }
+        for (int[] position : initialObstaclePositions) {
+            obstacles.add(new Rectangle(position[0], position[1], position[2], position[3]));
         }
     }
 
